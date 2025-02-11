@@ -28,30 +28,25 @@ int main() {
   gpio_pull_up(BTN_PIN_2);
 
   while (true) {
-    if (gpio_get(BTN_PIN) == 0) {
-      if (!led_r_state) {
-        gpio_put(LED_PIN_R, 1); // Acende o LED vermelho
-        led_r_state = true;
+    if (!gpio_get(BTN_PIN)) {
+      gpio_put(LED_PIN_R, 1);
+      printf("Botao 1\n");
+      while (!gpio_get(BTN_PIN)) {
+        sleep_ms(10);
       }
-    } else {
-      if (led_r_state) {
-        gpio_put(LED_PIN_R, 0); // Apaga o LED vermelho
-        led_r_state = false;
+    }else{
+      gpio_put(LED_PIN_R, 0);
+    }
+    if (!gpio_get(BTN_PIN_2)) {
+      gpio_put(LED_PIN_A, 1);
+      printf("Botao 2\n");
+      while (!gpio_get(BTN_PIN_2)) {
+        sleep_ms(10);
       }
+    }else{
+      gpio_put(LED_PIN_A, 0);
     }
 
-    if (gpio_get(BTN_PIN_2) == 0) {
-      if (!led_a_state) {
-        gpio_put(LED_PIN_A, 1); // Acende o LED amarelo
-        led_a_state = true;
-      }
-    } else {
-      if (led_a_state) {
-        gpio_put(LED_PIN_A, 0); // Apaga o LED amarelo
-        led_a_state = false;
-      }
-    }
-
-    sleep_ms(100); // Adiciona um delay de 100ms para cada ciclo
+    sleep_ms(100);
   }
 }
