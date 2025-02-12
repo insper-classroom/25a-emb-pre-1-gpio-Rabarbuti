@@ -2,11 +2,11 @@
 #include "pico/stdlib.h"
 #include <stdio.h>
 
-const int BTN_PIN = 4;
-const int BTN_PIN_2 = 6;
+const int LED_PIN_R = 4;
+const int LED_PIN_A = 6;
 
-const int LED_PIN_R = 28;
-const int LED_PIN_A = 26;
+const int BTN_PIN = 28;
+const int BTN_PIN_2 = 26;
 
 bool led_r_state = false;
 bool led_a_state = false;
@@ -27,26 +27,27 @@ int main() {
   gpio_pull_up(BTN_PIN);
   gpio_pull_up(BTN_PIN_2);
 
+  gpio_put(LED_PIN_R, 0);
+
+
   while (true) {
     if (!gpio_get(BTN_PIN)) {
       gpio_put(LED_PIN_R, 1);
-      printf("Botao 1\n");
+      sleep_ms(10);
       while (!gpio_get(BTN_PIN)) {
+        gpio_put(LED_PIN_R, 0);
         sleep_ms(10);
       }
-    }else{
-      gpio_put(LED_PIN_R, 0);
     }
     if (!gpio_get(BTN_PIN_2)) {
+      led_a_state = true;
       gpio_put(LED_PIN_A, 1);
-      printf("Botao 2\n");
+      sleep_ms(10);
       while (!gpio_get(BTN_PIN_2)) {
+        led_a_state = false;
+        gpio_put(LED_PIN_A, 0);
         sleep_ms(10);
       }
-    }else{
-      gpio_put(LED_PIN_A, 0);
     }
-
-    sleep_ms(100);
   }
 }
