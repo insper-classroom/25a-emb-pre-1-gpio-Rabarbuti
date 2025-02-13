@@ -28,21 +28,13 @@ int main() {
 
   while (true) {
     if (!gpio_get(BTN_PIN)) {
-      gpio_put(LED_PIN_R, 1);
-      sleep_ms(10);
+      gpio_put(LED_PIN_R, !gpio_get(LED_PIN_R));
       while (!gpio_get(BTN_PIN)) {
-        gpio_put(LED_PIN_R, 0);
-        sleep_ms(10);
       }
     }
     if (!gpio_get(BTN_PIN_2)) {
-      led_a_state = true;
-      gpio_put(LED_PIN_A, 1);
-      sleep_ms(10);
+      gpio_put(LED_PIN_A, !gpio_get(LED_PIN_A));
       while (!gpio_get(BTN_PIN_2)) {
-        led_a_state = false;
-        gpio_put(LED_PIN_A, 0);
-        sleep_ms(10);
       }
     }
   }
